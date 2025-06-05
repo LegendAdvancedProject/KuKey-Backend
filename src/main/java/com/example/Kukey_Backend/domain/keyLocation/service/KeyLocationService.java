@@ -41,8 +41,8 @@ public class KeyLocationService {
                 .orElseThrow(() -> new GlobalException(CANNOT_FOUND_SPACE));
 
         //s3에서 이미지 삭제
-        String oldImageUrl =  keyLocationRepository.findBySpace(spaceList.get(0)).get().getImageUrl();
-        s3Service.deleteImageFromS3(oldImageUrl);
+        keyLocationRepository.findBySpace(spaceList.get(0))
+                .ifPresent(keyLocation -> s3Service.deleteImageFromS3(keyLocation.getImageUrl()));
 
         //각 Space에 연결된 이전 KeyLocation 삭제 및 새로운 KeyLocation 으로 업데이트
         spaceList.forEach(space -> {
@@ -59,9 +59,13 @@ public class KeyLocationService {
             keyLocationRepository.save(newKeyLocation);
         });
 
+        Long keyLocationId = keyLocationRepository.findBySpace(spaceList.get(0))
+                .map(KeyLocation::getKeyLocationId)
+                .orElse(null);
+
         return PostKeyLocationUploadResponse.builder()
                 .buildingName(postKeyLocationUploadRequest.buildingName())
-                .keyLocationId(keyLocationRepository.findBySpace(spaceList.get(0)).get().getKeyLocationId())
+                .keyLocationId(keyLocationId)
                 .build();
 
     }
