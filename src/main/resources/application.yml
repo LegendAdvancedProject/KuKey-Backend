@@ -71,8 +71,8 @@ spring:
       on-profile: common
   servlet:
     multipart:
-      max-file-size: 3MB # 개별 파일의 최대 크기
-      max-request-size: 3MB # 전체 요청 크기
+      max-file-size: 4MB # 개별 파일의 최대 크기
+      max-request-size: 4MB # 전체 요청 크기
 
 univcert:
   api:
