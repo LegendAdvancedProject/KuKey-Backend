@@ -35,7 +35,7 @@ public class ReservationService {
     /**
      * 실습실 예약하기
      */
-    public Void reservationToSpace(Long spaceId, PostReservationToSpaceRequest postReservationToSpaceRequest,String authHeader) {
+    public PostReservationResponse reservationToSpace(Long spaceId, PostReservationToSpaceRequest postReservationToSpaceRequest,String authHeader) {
 
         LocalTime allowedStart = LocalTime.of(9, 0); // 오전 9시
         LocalTime allowedEnd = LocalTime.of(22, 0); // 오후 10시
@@ -99,7 +99,7 @@ public class ReservationService {
                 .build();
 
         reservationRepository.save(reservation);
-        return null;
+        return new PostReservationResponse(reservation.getReservationId());
     }
 
     /**
