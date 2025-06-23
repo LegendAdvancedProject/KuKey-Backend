@@ -2,6 +2,7 @@ package com.example.Kukey_Backend.controller;
 
 import com.example.Kukey_Backend.domain.reservation.domain.dto.request.PostReservationToSpaceRequest;
 import com.example.Kukey_Backend.domain.reservation.domain.dto.response.GetReservationInfoResponse;
+import com.example.Kukey_Backend.domain.reservation.domain.dto.response.PostReservationResponse;
 import com.example.Kukey_Backend.domain.reservation.service.ReservationService;
 import com.example.Kukey_Backend.global.annotation.RoleRequired;
 import com.example.Kukey_Backend.global.response.BaseResponse;
@@ -22,9 +23,9 @@ public class ReservationController {
 
     //실습실 예약하기
     @PostMapping("/{spaceId}")
-    public BaseResponse<Void> reservationToSpace(@PathVariable final Long spaceId,
-                                   @Valid @RequestBody final PostReservationToSpaceRequest postReservationToSpaceRequest,
-                                                 @RequestHeader("Authorization") String authHeader
+    public BaseResponse<PostReservationResponse> reservationToSpace(@PathVariable final Long spaceId,
+                                                                    @Valid @RequestBody final PostReservationToSpaceRequest postReservationToSpaceRequest,
+                                                                    @RequestHeader("Authorization") String authHeader
     ) {
         return BaseResponse.ok(reservationService.reservationToSpace(spaceId,postReservationToSpaceRequest,authHeader));
     }
